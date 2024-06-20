@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= project.name %> Details</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+  <%- include('partials/header') %>
+  <div class="container">
+    <h2 class="mt-5"><%= project.name %> Details</h2>
+    <p><%= project.description %></p>
+    <p>Author: <%= project.author %></p>
+    <a href="/projects/<%= project._id %>/edit" class="btn btn-primary">Edit Project</a>
+    <form action="/projects/<%= project._id %>?_method=DELETE" method="POST" class="d-inline">
+      <button type="submit" class="btn btn-danger">Delete Project</button>
+    </form>
+    <hr>
+    <h3>Issues</h3>
+    <form method="GET" action="/projects/<%= project._id %>" class="form-inline">
+      <input type="text" name="search" class="form-control mb-2 mr-sm-2" placeholder="Search by title or description">
+      <input type="text" name="author" class="form-control mb-2 mr-sm-2" placeholder="Filter by author">
+      <input type="text" name="labels" class="form-control mb-2 mr-sm-2" placeholder="Filter by labels (comma separated)">
+      <button type="submit" class="btn btn-primary mb-2">Filter</button>
+    </form>
+    <a href="/projects/<%= project._id %>/issues/new" class="btn btn-success mt-3">Create Issue</a>
+    <ul class="list-group mt-3">
+      <% issues.forEach(issue => { %>
+        <li class="list-group-item">
+          <h5><a href="/issues/<%= issue._id %>"><%= issue.title %></a></h5>
+          <p><%= issue.description %></p>
+          <p>Labels: <%= issue.labels.join(', ') %></p>
+          <p>Author: <%= issue.author %></p>
+          <a href="/projects/<%= project._id %>/issues/<%= issue._id %>/edit" class="btn btn-primary btn-sm">Edit</a>
+          <form action="/projects/<%= project._id %>/issues/<%= issue._id %>?_method=DELETE" method="POST" class="d-inline">
+            <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+          </form>
+        </li>
+      <% }); %>
+    </ul>
+    <a href="/" class="btn btn-secondary mt-3">Back to Home</a>
+  </div>
+  <%- include('partials/footer') %>
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
